@@ -34,6 +34,13 @@ if [ "$2" = "-a" ]; then
   shift 2
 fi
 
+#docker socket specification
+DOCKER_SOCKET=
+if [ "$2" = "-H" ]; then
+  DOCKER_SOCKET="-H $3"
+  shift 2
+fi
+
 GUESTNAME=$2
 IPADDR=$3
 MACADDR=$4
@@ -62,8 +69,8 @@ esac
 
 [ "$IPADDR" ] || [ "$WAIT" ] || {
   echo "Syntax:"
-  echo "pipework <hostinterface> [-i containerinterface] [-l localinterfacename] [-a addressfamily] <guest> <ipaddr>/<subnet>[@default_gateway] [macaddr][@vlan]"
-  echo "pipework <hostinterface> [-i containerinterface] [-l localinterfacename] <guest> dhcp [macaddr][@vlan]"
+  echo "pipework <hostinterface> [-i containerinterface] [-l localinterfacename] [-a addressfamily] [-H dockersocket] <guest> <ipaddr>/<subnet>[@default_gateway] [macaddr][@vlan]"
+  echo "pipework <hostinterface> [-i containerinterface] [-l localinterfacename] [-H dockersocket] <guest> dhcp [macaddr][@vlan]"
   echo "pipework route <guest> <route_command>"
   echo "pipework --wait [-i containerinterface]"
   exit 1
